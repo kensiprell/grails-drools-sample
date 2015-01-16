@@ -16,7 +16,6 @@ class TestController {
 
 	def getModel() {
 		def model = [results:[:]]
-		def classLoader = new GroovyClassLoader()
 
 		def applicant = new Applicant(name: "A Smith", age: 20)
 		def application = new Application(dateApplied: new Date())
