@@ -1,4 +1,4 @@
-grails.plugin.drools.domainClass = "grails.plugin.drools_sample.DroolsRule"
+grails.plugin.drools.droolsRuleDomainClass = "grails.plugin.drools_sample.DroolsRule"
 
 grails.project.groupId = appName
 
