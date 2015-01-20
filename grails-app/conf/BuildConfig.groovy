@@ -24,7 +24,6 @@ grails.project.dependency.resolution = {
 	repositories {
 		//mavenRepo "http://localhost:8081/artifactory/plugins-snapshot-local/"
 		//mavenRepo "http://localhost:8081/artifactory/plugins-release-local/"
-		inherits true // Whether to inherit repository definitions from plugins
 
 		grailsPlugins()
 		grailsHome()
@@ -45,7 +44,7 @@ grails.project.dependency.resolution = {
 	plugins {
 		build ":tomcat:7.0.55"
 
-		compile ":drools:0.4.1"
+		compile ":drools:0.9.0"
 		compile ":scaffolding:2.1.2"
 		compile ':cache:1.1.8'
 		compile ":asset-pipeline:1.9.9"
