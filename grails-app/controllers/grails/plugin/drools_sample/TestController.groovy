@@ -7,7 +7,6 @@ class TestController {
 
 	def droolsService
 	StatelessKieSession applicationStatelessSession
-	// TODO tests for ticketStatefulSession
 	KieSession ticketStatefulSession
 
 	def index() {
@@ -80,6 +79,22 @@ class TestController {
 		application = new Application(dateApplied: new Date(114, 0, 1))
 		droolsService.executeFromDatabase("application", [applicant, application])
 		model.results["PackageName - age is over 18 and application is made last year"] = application.valid
+
+		def t1 = new Ticket(1, new Customer("Jack", "Gold"))
+		def t2 = new Ticket(2, new Customer("Tom", "Silver"))
+		def t3 = new Ticket(3, new Customer("Bill", "Bronze"))
+		facts = [t1, t1.customer, t2, t2.customer, t3, t3.customer]
+		for (fact in facts) {
+			ticketStatefulSession.insert fact
+		}
+		ticketStatefulSession.fireAllRules()
+		ticketStatefulSession.dispose()
+		model.results["ticketStatefulSession - t1.status is Escalate"] = t1.status
+		model.results["ticketStatefulSession - t1.customer.discount is 5"] = t1.customer.discount
+		model.results["ticketStatefulSession - t2.status is Escalate"] = t2.status
+		model.results["ticketStatefulSession - t2.customer.discount is 0"] = t2.customer.discount
+		model.results["ticketStatefulSession - t3.status is Pending"] = t3.status
+		model.results["ticketStatefulSession - t3.customer.discount is 0"] = t3.customer.discount
 
 		return model
 	}

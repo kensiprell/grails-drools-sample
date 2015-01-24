@@ -14,7 +14,7 @@ class IndexPageSpec extends GebReportingSpec {
 
 	def "Check results"() {
 		given:
-		waitFor { $("#result12").displayed }
+		waitFor { $("#result18").displayed }
 		$("#result1").text() == "true"
 		$("#result2").text() == "false"
 		$("#result3").text() == "false"
@@ -27,5 +27,11 @@ class IndexPageSpec extends GebReportingSpec {
 		$("#result10").text() == "true"
 		$("#result11").text() == "false"
 		$("#result12").text() == "false"
+		$("#result13").text() == "Escalate"
+		$("#result14").text() == "5"
+		$("#result15").text() == "Escalate"
+		$("#result16").text() == "0"
+		$("#result17").text() == "Pending"
+		$("#result18").text() == "0"
 	}
 }
