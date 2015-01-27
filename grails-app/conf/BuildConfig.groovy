@@ -44,7 +44,7 @@ grails.project.dependency.resolution = {
 	plugins {
 		build ":tomcat:7.0.55"
 
-		compile ":drools:0.9.0"
+		compile ":drools:0.9.2"
 		compile ":scaffolding:2.1.2"
 		compile ':cache:1.1.8'
 		compile ":asset-pipeline:1.9.9"
