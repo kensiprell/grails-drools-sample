@@ -68,6 +68,8 @@ environments {
 }
 
 log4j.main = {
+	info 'org.drools',
+	     'org.kie'
 	error 'org.codehaus.groovy.grails.web.servlet',        // controllers
 		'org.codehaus.groovy.grails.web.pages',          // GSP
 		'org.codehaus.groovy.grails.web.sitemesh',       // layouts

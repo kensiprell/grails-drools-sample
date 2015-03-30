@@ -13,6 +13,8 @@ grails.project.fork = [
 	console: false
 ]
 
+grails.plugin.drools.drlFileLocation = "drools-rules"
+
 grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
 	inherits("global") {
@@ -44,7 +46,7 @@ grails.project.dependency.resolution = {
 	plugins {
 		build ":tomcat:7.0.55"
 
-		compile ":drools:0.9.3"
+		compile ":drools:1.0.0-SNAPSHOT"
 		compile ":scaffolding:2.1.2"
 		compile ':cache:1.1.8'
 		compile ":asset-pipeline:1.9.9"

@@ -10,5 +10,5 @@
       <kie:ksession name='ticketStatelessSession' default='false' type='stateless' />
     </kie:kbase>
   </kie:kmodule>
-  <bean id='kiePostProcessor' class='org.kie.spring.KModuleBeanFactoryPostProcessor' />
+  <bean id='kiePostProcessor' class='org.kie.spring.KModuleBeanFactoryPostProcessor' configFileURL='/Users/Ken/Development/Plugins/grails-drools-sample/target/work/resources/rules' />
 </beans>
