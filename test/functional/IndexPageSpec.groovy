@@ -12,26 +12,33 @@ class IndexPageSpec extends GebReportingSpec {
 		title == "Drools Sample"
 	}
 
-	def "Check results"() {
-		given:
-		waitFor { $("#result18").displayed }
-		$("#result1").text() == "true"
-		$("#result2").text() == "false"
-		$("#result3").text() == "false"
-		$("#result4").text() == "true"
-		$("#result5").text() == "false"
-		$("#result6").text() == "false"
-		$("#result7").text() == "true"
-		$("#result8").text() == "false"
-		$("#result9").text() == "false"
-		$("#result10").text() == "true"
-		$("#result11").text() == "false"
-		$("#result12").text() == "false"
-		$("#result13").text() == "Escalate"
-		$("#result14").text() == "5"
-		$("#result15").text() == "Escalate"
-		$("#result16").text() == "0"
-		$("#result17").text() == "Pending"
-		$("#result18").text() == "0"
+	@Unroll
+	def "result#id should equal #text"() {
+		when:
+		waitFor { $("#result$id").displayed }
+
+		then:
+		$("#result$id").text() == text
+
+		where:
+		id	| text
+		1	| "true"
+		2	| "false"
+		3	| "false"
+		4	| "true"
+		5	| "false"
+		6	| "false"
+		7	| "true"
+		8	| "false"
+		9	| "false"
+		10	| "true"
+		11	| "false"
+		12	|  "false"
+		13	| "Escalate"
+		14	| "5"
+		15	| "Escalate"
+		16	| "0"
+		17	| "Pending"
+		18	| "0"
 	}
 }

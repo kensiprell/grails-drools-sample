@@ -40,19 +40,19 @@ class TestController {
 
 		applicant = new Applicant(name: "D Smith", age: 20)
 		application = new Application(dateApplied: new Date())
-		droolsService.executeFromFile("rules/application/application.drl", [applicant, application])
+		droolsService.executeFromFile("drools-rules/application/application.drl", [applicant, application])
 		dateTime = new DateTime(application.dateApplied)
 		model.results["File - D Smith age is $applicant.age and application was made in $dateTime.year (true)"] = application.valid
 
 		applicant = new Applicant(name: "E Smith", age: 17)
 		application = new Application(dateApplied: new Date())
-		droolsService.executeFromFile("rules/application/application.drl", [applicant, application])
+		droolsService.executeFromFile("drools-rules/application/application.drl", [applicant, application])
 		dateTime = new DateTime(application.dateApplied)
 		model.results["File - E Smith age is $applicant.age and application was made in $dateTime.year (false)"] = application.valid
 
 		applicant = new Applicant(name: "F Smith", age: 20)
 		application = new Application(dateApplied: new Date(114, 0, 1))
-		droolsService.executeFromFile("rules/application/application.drl", [applicant, application])
+		droolsService.executeFromFile("drools-rules/application/application.drl", [applicant, application])
 		dateTime = new DateTime(application.dateApplied)
 		model.results["File - F Smith age is $applicant.age and application was made in $dateTime.year (false)"] = application.valid
 
