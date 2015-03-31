@@ -33,7 +33,7 @@ class IndexPageSpec extends GebReportingSpec {
 		9	| "false"
 		10	| "true"
 		11	| "false"
-		12	|  "false"
+		12	| "false"
 		13	| "Escalate"
 		14	| "5"
 		15	| "Escalate"
