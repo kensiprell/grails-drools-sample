@@ -61,14 +61,10 @@ class AppRulesTestsSpec extends IntegrationSpec {
 	}
 
 	void "test executeFromDatabase with rule id"() {
-		given:
-		String drlText = new GroovyClassLoader().getResourceAsStream("drools-rules/application/application.drl").text
-		def rule = new DroolsRule(rule: drlText, description: "ticket.drl", packageName: "application").save(flush: true)
-		DroolsRule.withSession { it.clear() }
-
 		when: "age is over 18 and application is made this year"
 		def applicant = new Applicant(name: "A Smith", age: 20)
 		def application = new Application(dateApplied: new Date())
+		def rule = DroolsRule.findByPackageName("application")
 		droolsService.executeFromDatabase(rule.id, [applicant, application])
 		then:
 		application.valid
@@ -89,14 +85,6 @@ class AppRulesTestsSpec extends IntegrationSpec {
 	}
 
 	void "test executeFromDatabase with packageName"() {
-		given:
-		def classLoader = new GroovyClassLoader()
-		String drlText = classLoader.getResourceAsStream("drools-rules/application/application.drl").text
-		new DroolsRule(rule: drlText, description: "application.drl", packageName: "application").save(flush: true)
-		drlText = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
-		new DroolsRule(rule: drlText, description: "ticket.drl", packageName: "application").save(flush: true)
-		DroolsRule.withSession { it.clear() }
-
 		when: "age is over 18 and application is made this year"
 		def applicant = new Applicant(name: "A Smith", age: 20)
 		def application = new Application(dateApplied: new Date())
@@ -168,9 +156,7 @@ class AppRulesTestsSpec extends IntegrationSpec {
 		def t3 = new Ticket(3, new Customer("Bill", "Bronze"))
 
 		when:
-		String drlText = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
-		def rule = new DroolsRule(rule: drlText, description: "ticket.drl", packageName: "ticket").save(flush: true)
-		DroolsRule.withSession { it.clear() }
+		def rule = DroolsRule.findByPackageName("ticket")
 		droolsService.fireFromDatabase(rule.id, [t1, t1.customer, t2, t2.customer, t3, t3.customer])
 
 		then:
@@ -190,11 +176,6 @@ class AppRulesTestsSpec extends IntegrationSpec {
 		def t3 = new Ticket(3, new Customer("Bill", "Bronze"))
 
 		when:
-		String drlText = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
-		new DroolsRule(rule: drlText, description: "ticket.drl", packageName: "ticket").save(flush: true)
-		drlText = classLoader.getResourceAsStream("drools-rules/application/application.drl").text
-		new DroolsRule(rule: drlText, description: "application.drl", packageName: "ticket").save(flush: true)
-		DroolsRule.withSession { it.clear() }
 		droolsService.fireFromDatabase("ticket", [t1, t1.customer, t2, t2.customer, t3, t3.customer])
 
 		then:
