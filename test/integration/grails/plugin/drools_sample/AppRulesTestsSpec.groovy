@@ -5,7 +5,7 @@ import grails.test.spock.IntegrationSpec
 import org.kie.api.runtime.KieSession
 import org.kie.api.runtime.StatelessKieSession
 
-class RulesTestsSpec extends IntegrationSpec {
+class AppRulesTestsSpec extends IntegrationSpec {
 
 	def droolsService
 	StatelessKieSession applicationStatelessSession
