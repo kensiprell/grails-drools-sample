@@ -24,8 +24,8 @@ grails.project.dependency.resolution = {
 	legacyResolve false
 
 	repositories {
-		//mavenRepo "http://localhost:8081/artifactory/plugins-snapshot-local/"
-		//mavenRepo "http://localhost:8081/artifactory/plugins-release-local/"
+		mavenRepo "http://localhost:8081/artifactory/plugins-snapshot-local/"
+		mavenRepo "http://localhost:8081/artifactory/plugins-release-local/"
 
 		grailsPlugins()
 		grailsHome()
