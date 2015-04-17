@@ -93,6 +93,26 @@ class TestController {
 		dateTime = new DateTime(application.dateApplied)
 		model.results["PackageName - L Smith age is $applicant.age and application was made in $dateTime.year (false)"] = application.valid
 
+		def classLoader = new GroovyClassLoader()
+		String text = classLoader.getResourceAsStream("drools-rules/application/application.drl").text
+		applicant = new Applicant(name: "M Smith", age: 20)
+		application = new Application(dateApplied: new Date())
+		droolsService.executeFromText(text, [applicant, application])
+		dateTime = new DateTime(application.dateApplied)
+		model.results["PackageName - M Smith age is $applicant.age and application was made in $dateTime.year (true)"] = application.valid
+
+		applicant = new Applicant(name: "N Smith", age: 17)
+		application = new Application(dateApplied: new Date())
+		droolsService.executeFromText(text, [applicant, application])
+		dateTime = new DateTime(application.dateApplied)
+		model.results["PackageName - N Smith age is $applicant.age and application was made in $dateTime.year (false)"] = application.valid
+
+		applicant = new Applicant(name: "O Smith", age: 20)
+		application = new Application(dateApplied: new Date(114, 0, 1))
+		droolsService.executeFromText(text, [applicant, application])
+		dateTime = new DateTime(application.dateApplied)
+		model.results["PackageName - O Smith age is $applicant.age and application was made in $dateTime.year (false)"] = application.valid
+
 		def t1 = new Ticket(1, new Customer("Greg", "Gold"))
 		def t2 = new Ticket(2, new Customer("Sam", "Silver"))
 		def t3 = new Ticket(3, new Customer("Bill", "Bronze"))
@@ -102,6 +122,16 @@ class TestController {
 		}
 		ticketStatefulSession.fireAllRules()
 
+		model.results["ticketStatefulSession - t1.status (Escalate)"] = t1.status
+		model.results["ticketStatefulSession - t1.customer.discount (5)"] = t1.customer.discount
+		model.results["ticketStatefulSession - t2.status (Escalate)"] = t2.status
+		model.results["ticketStatefulSession - t2.customer.discount (0)"] = t2.customer.discount
+		model.results["ticketStatefulSession - t3.status (Pending)"] = t3.status
+		model.results["ticketStatefulSession - t3.customer.discount (0)"] = t3.customer.discount
+
+		text = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
+		droolsService.fireFromText(text, facts)
+		
 		model.results["ticketStatefulSession - t1.status (Escalate)"] = t1.status
 		model.results["ticketStatefulSession - t1.customer.discount (5)"] = t1.customer.discount
 		model.results["ticketStatefulSession - t2.status (Escalate)"] = t2.status
