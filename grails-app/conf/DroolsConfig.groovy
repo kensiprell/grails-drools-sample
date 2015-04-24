@@ -1,6 +1,6 @@
 kieBases = [
 	[
-		includeInConfig: false,
+		includeInConfig: true,
 		attributes     : [
 			name    : "applicationKieBase",
 			default : false,
