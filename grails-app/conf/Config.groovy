@@ -67,10 +67,25 @@ environments {
 	}
 }
 
-log4j.main = {
-	info 'org.drools',
-	     'org.kie'
-	error 'org.codehaus.groovy.grails.web.servlet',        // controllers
+def log4jConversionPattern = '%d{yyyy-MMM-dd HH:mm:ss,SSS} %p [%t] %c %x - %F %L - %m%n'
+log4j = {
+	appenders {
+		console name: 'stdout',
+			layout: pattern(conversionPattern: log4jConversionPattern)
+		file name: 'file',
+			append: false,
+			file: (System.getProperty('catalina.base') ?: 'target') + '/logs/grails-drools-sample.log',
+			layout: pattern(conversionPattern: log4jConversionPattern)
+	}
+	root {
+		error 'stdout', 'file'
+	}
+	info file: [
+		'org.drools',
+		'org.kie'
+	]
+	error file: [
+		'org.codehaus.groovy.grails.web.servlet',        // controllers
 		'org.codehaus.groovy.grails.web.pages',          // GSP
 		'org.codehaus.groovy.grails.web.sitemesh',       // layouts
 		'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
@@ -79,6 +94,6 @@ log4j.main = {
 		'org.codehaus.groovy.grails.plugins',            // plugins
 		'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
 		'org.springframework',
-		'org.hibernate',
-		'net.sf.ehcache.hibernate'
+		'org.hibernate'
+	]
 }
