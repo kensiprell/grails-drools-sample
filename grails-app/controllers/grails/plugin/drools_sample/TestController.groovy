@@ -75,7 +75,6 @@ class TestController {
 		dateTime = new DateTime(application.dateApplied)
 		model.results["executeFromDatabase rule.id - I Smith age is $applicant.age and application was made in $dateTime.year (false)"] = application.valid
 
-/*
 		applicant = new Applicant(name: "J Smith", age: 20)
 		application = new Application(dateApplied: new Date())
 		droolsService.executeFromDatabase("application", [applicant, application])
@@ -93,7 +92,6 @@ class TestController {
 		droolsService.executeFromDatabase("application", [applicant, application])
 		dateTime = new DateTime(application.dateApplied)
 		model.results["executeFromDatabase packageName - L Smith age is $applicant.age and application was made in $dateTime.year (false)"] = application.valid
-*/
 
 		def classLoader = new GroovyClassLoader()
 		String text = classLoader.getResourceAsStream("drools-rules/application/application.drl").text
