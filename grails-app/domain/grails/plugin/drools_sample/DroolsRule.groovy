@@ -13,6 +13,6 @@ class DroolsRule {
 	static constraints = {
 		rule blank: false
 		description blank: false
-		packageName blank: true
+		packageName nullable: true, blank: true
 	}
 }
