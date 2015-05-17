@@ -1,7 +1,6 @@
 package grails.plugin.drools_sample
 
 import grails.test.spock.IntegrationSpec
-
 import org.kie.api.runtime.KieSession
 import org.kie.api.runtime.StatelessKieSession
 
@@ -61,10 +60,14 @@ class AppRulesTestsSpec extends IntegrationSpec {
 	}
 
 	void "test executeFromDatabase with rule id"() {
+		given:
+		String drlText = new GroovyClassLoader().getResourceAsStream("drools-rules/application/application.drl").text
+		def rule = new DroolsRule(ruleText: drlText, description: "application.drl", packageName: "application").save(flush: true)
+		DroolsRule.withSession { it.clear() }
+
 		when: "age is over 18 and application is made this year"
 		def applicant = new Applicant(name: "A Smith", age: 20)
 		def application = new Application(dateApplied: new Date())
-		def rule = DroolsRule.findByPackageName("application")
 		droolsService.executeFromDatabase(rule.id, [applicant, application])
 		then:
 		application.valid
@@ -110,8 +113,8 @@ class AppRulesTestsSpec extends IntegrationSpec {
 	void "test executeFromText"() {
 		given:
 		def classLoader = new GroovyClassLoader()
-		String text = classLoader.getResourceAsStream("rules/application/application.drl").text
-	
+		String text = classLoader.getResourceAsStream("drools-rules/application/application.drl").text
+
 		when: "age is over 18 and application is made this year"
 		def applicant = new Applicant(name: "A Smith", age: 20)
 		def application = new Application(dateApplied: new Date())
@@ -183,7 +186,9 @@ class AppRulesTestsSpec extends IntegrationSpec {
 		def t3 = new Ticket(3, new Customer("Bill", "Bronze"))
 
 		when:
-		def rule = DroolsRule.findByPackageName("ticket")
+		String drlText = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
+		def rule = new DroolsRule(ruleText: drlText, description: "ticket.drl", packageName: "ticket").save(flush: true)
+		DroolsRule.withSession { it.clear() }
 		droolsService.fireFromDatabase(rule.id, [t1, t1.customer, t2, t2.customer, t3, t3.customer])
 
 		then:
@@ -197,11 +202,17 @@ class AppRulesTestsSpec extends IntegrationSpec {
 
 	void "test fireFromDatabase with packageName"() {
 		given:
+		def classLoader = new GroovyClassLoader()
 		def t1 = new Ticket(1, new Customer("Greg", "Gold"))
 		def t2 = new Ticket(2, new Customer("Sam", "Silver"))
 		def t3 = new Ticket(3, new Customer("Bill", "Bronze"))
 
 		when:
+		String drlText = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
+		new DroolsRule(ruleText: drlText, description: "ticket.drl", packageName: "ticket").save(flush: true)
+		drlText = classLoader.getResourceAsStream("drools-rules/application/application.drl").text
+		new DroolsRule(ruleText: drlText, description: "application.drl", packageName: "application").save(flush: true)
+		DroolsRule.withSession { it.clear() }
 		droolsService.fireFromDatabase("ticket", [t1, t1.customer, t2, t2.customer, t3, t3.customer])
 
 		then:
@@ -212,7 +223,7 @@ class AppRulesTestsSpec extends IntegrationSpec {
 		t3.status == "Pending"
 		t3.customer.discount == 0
 	}
-	
+
 	void "test fireFromText"() {
 		given:
 		def classLoader = new GroovyClassLoader()
@@ -221,7 +232,7 @@ class AppRulesTestsSpec extends IntegrationSpec {
 		def t3 = new Ticket(3, new Customer("Bill", "Bronze"))
 
 		when:
-		String text = classLoader.getResourceAsStream("rules/ticket/ticket.drl").text
+		String text = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
 		droolsService.fireFromText(text, [t1, t1.customer, t2, t2.customer, t3, t3.customer])
 
 		then:
