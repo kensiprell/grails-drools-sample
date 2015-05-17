@@ -6,7 +6,7 @@ import org.kie.api.runtime.StatelessKieSession
 
 class AppRulesTestsSpec extends IntegrationSpec {
 
-	def RULE_PROPERTY = "rule" // rule or ruleText
+	def RULE_PROPERTY = "ruleText" // rule or ruleText
 	def droolsService
 	StatelessKieSession applicationStatelessSession
 	KieSession ticketStatefulSession

@@ -2,7 +2,7 @@ import grails.plugin.drools_sample.DroolsRule
 
 class BootStrap {
 	def init = { servletContext ->
-		def RULE_PROPERTY = "rule" // rule or ruleText
+		def RULE_PROPERTY = "ruleText" // rule or ruleText
 		def classLoader = this.class.classLoader
 		String rule1 = '''
 rule "Applicant is over 18"
