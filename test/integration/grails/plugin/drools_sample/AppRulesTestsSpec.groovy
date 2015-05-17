@@ -6,6 +6,7 @@ import org.kie.api.runtime.StatelessKieSession
 
 class AppRulesTestsSpec extends IntegrationSpec {
 
+	def RULE_PROPERTY = "rule" // rule or ruleText
 	def droolsService
 	StatelessKieSession applicationStatelessSession
 	KieSession ticketStatefulSession
@@ -62,7 +63,7 @@ class AppRulesTestsSpec extends IntegrationSpec {
 	void "test executeFromDatabase with rule id"() {
 		given:
 		String drlText = new GroovyClassLoader().getResourceAsStream("drools-rules/application/application.drl").text
-		def rule = new DroolsRule(ruleText: drlText, description: "application.drl", packageName: "application").save(flush: true)
+		def rule = new DroolsRule((RULE_PROPERTY): drlText, description: "application.drl", packageName: "application").save(flush: true)
 		DroolsRule.withSession { it.clear() }
 
 		when: "age is over 18 and application is made this year"
@@ -187,7 +188,7 @@ class AppRulesTestsSpec extends IntegrationSpec {
 
 		when:
 		String drlText = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
-		def rule = new DroolsRule(ruleText: drlText, description: "ticket.drl", packageName: "ticket").save(flush: true)
+		def rule = new DroolsRule((RULE_PROPERTY): drlText, description: "ticket.drl", packageName: "ticket").save(flush: true)
 		DroolsRule.withSession { it.clear() }
 		droolsService.fireFromDatabase(rule.id, [t1, t1.customer, t2, t2.customer, t3, t3.customer])
 
@@ -209,9 +210,9 @@ class AppRulesTestsSpec extends IntegrationSpec {
 
 		when:
 		String drlText = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
-		new DroolsRule(ruleText: drlText, description: "ticket.drl", packageName: "ticket").save(flush: true)
+		new DroolsRule((RULE_PROPERTY): drlText, description: "ticket.drl", packageName: "ticket").save(flush: true)
 		drlText = classLoader.getResourceAsStream("drools-rules/application/application.drl").text
-		new DroolsRule(ruleText: drlText, description: "application.drl", packageName: "application").save(flush: true)
+		new DroolsRule((RULE_PROPERTY): drlText, description: "application.drl", packageName: "application").save(flush: true)
 		DroolsRule.withSession { it.clear() }
 		droolsService.fireFromDatabase("ticket", [t1, t1.customer, t2, t2.customer, t3, t3.customer])
 

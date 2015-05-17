@@ -2,6 +2,7 @@ import grails.plugin.drools_sample.DroolsRule
 
 class BootStrap {
 	def init = { servletContext ->
+		def RULE_PROPERTY = "rule" // rule or ruleText
 		def classLoader = this.class.classLoader
 		String rule1 = '''
 rule "Applicant is over 18"
@@ -29,13 +30,13 @@ then
     $a.setValid(true);
 end
 '''
-		new DroolsRule(ruleText: rule1, description: "Applicant is over 18", packageName: "application").save()
-		new DroolsRule(ruleText: rule2, description: "Application was made this year", packageName: "application").save()
-		new DroolsRule(ruleText: rule3, description: "Application is valid", packageName: "application").save()
+		new DroolsRule((RULE_PROPERTY): rule1, description: "Applicant is over 18", packageName: "application").save()
+		new DroolsRule((RULE_PROPERTY): rule2, description: "Application was made this year", packageName: "application").save()
+		new DroolsRule((RULE_PROPERTY): rule3, description: "Application is valid", packageName: "application").save()
 		String drlText = classLoader.getResourceAsStream("drools-rules/application/application.drl").text
-		new DroolsRule(ruleText: drlText, description: "application.drl").save()
+		new DroolsRule((RULE_PROPERTY): drlText, description: "application.drl").save()
 		drlText = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
-		new DroolsRule(ruleText: drlText, description: "ticket.drl").save(flush: true)
+		new DroolsRule((RULE_PROPERTY): drlText, description: "ticket.drl").save(flush: true)
 	}
 
 	def destroy = {
