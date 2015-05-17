@@ -82,7 +82,8 @@ log4j = {
 	}
 	info file: [
 		'org.drools',
-		'org.kie'
+		'org.kie',
+		'org.grails.plugins.drools'
 	]
 	error file: [
 		'org.codehaus.groovy.grails.web.servlet',        // controllers
