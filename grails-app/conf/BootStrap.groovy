@@ -29,13 +29,13 @@ then
     $a.setValid(true);
 end
 '''
-		new DroolsRule(rule: rule1, description: "Applicant is over 18", packageName: "application").save()
-		new DroolsRule(rule: rule2, description: "Application was made this year", packageName: "application").save()
-		new DroolsRule(rule: rule3, description: "Application is valid", packageName: "application").save()
+		new DroolsRule(ruleText: rule1, description: "Applicant is over 18", packageName: "application").save()
+		new DroolsRule(ruleText: rule2, description: "Application was made this year", packageName: "application").save()
+		new DroolsRule(ruleText: rule3, description: "Application is valid", packageName: "application").save()
 		String drlText = classLoader.getResourceAsStream("drools-rules/application/application.drl").text
-		new DroolsRule(rule: drlText, description: "application.drl").save()
+		new DroolsRule(ruleText: drlText, description: "application.drl").save()
 		drlText = classLoader.getResourceAsStream("drools-rules/ticket/ticket.drl").text
-		new DroolsRule(rule: drlText, description: "ticket.drl").save(flush: true)
+		new DroolsRule(ruleText: drlText, description: "ticket.drl").save(flush: true)
 	}
 
 	def destroy = {
